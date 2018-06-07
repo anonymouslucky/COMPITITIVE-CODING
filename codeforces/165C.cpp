@@ -17,38 +17,31 @@ int main()
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 
-	lli n,k,q,i,j;
+	lli n,k,i,j;
 	
-	cin>>n>>k>>q;
+	string str;
 	
-	lli l[n+1],r[n+1];
+	cin>>k;
+	cin>>str;
+	n = str.length();
 	
+	lli freq[n+1];
 	memset(freq,0,sizeof freq);
+	
+	freq[0] = 0;
+	rep(i,1,n)
+		freq[i] = freq[i-1] + (bool)(str[i-1]=='1');
+	
+	lli ans = 0;
 	
 	rep(i,1,n)
 	{
-		cin>>l[i]>>r[i];
-		freq[l[i]] += 1;freq[r[i]+1]-=1;
+		j = (upper_bound(freq,freq+i,freq[i]-k)-lower_bound(freq,freq+i,freq[i]-k));
+		ans += j;
 	}
 	
-	rep(i,1,200001)
-		freq[i] += freq[i-1];
-	
-	rep(i,1,200001)
-	{
-		freq[i] = freq[i]>=k?1:0;
-		freq[i] += freq[i-1];
-	}
-		
-	while(q--)
-	{
-		cin>>i>>j;
-		cout<<(freq[j]-freq[i-1])<<endl;
-	}
-	
-	
+	cout<<ans<<endl;
 	return 0;
 }
-
 
 
